@@ -1,6 +1,4 @@
-import List from '@libmedia/cheap/std/collection/List'
-import { Cond } from '@libmedia/cheap/thread/cond'
-import { Mutex } from '@libmedia/cheap/thread/mutex'
+import { Mutex, Cond, List } from '@libmedia/cheap'
 
 @struct
 export default class Queue {

@@ -1,4 +1,4 @@
-import Queue from './queue'
+import Queue from './queue.js'
 import { Sleep } from '@libmedia/common/timer'
 import { mutex, cond, ThreadId } from '@libmedia/cheap'
 

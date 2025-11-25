@@ -1,7 +1,5 @@
-import compile from '@libmedia/cheap/webassembly/compiler'
-import WebAssemblyRunner from '@libmedia/cheap/webassembly/WebAssemblyRunner'
-
 import wasmFile from './main.wasm'
+import { compileResource, WebAssemblyRunner  } from '@libmedia/cheap'
 
 @struct
 class Data {
@@ -12,7 +10,7 @@ class Data {
 
 async function run() {
 
-  const resource = await compile(
+  const resource = await compileResource(
     {
       source: wasmFile
     }

@@ -1,6 +1,9 @@
-import compile from '@libmedia/cheap/webassembly/compiler'
-import WebAssemblyRunner from '@libmedia/cheap/webassembly/WebAssemblyRunner'
 import fs from 'fs'
+import path from 'path'
+import { compileResource, WebAssemblyRunner  } from '@libmedia/cheap'
+import { fileURLToPath } from 'url'
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url))
 
 @struct
 class Data {
@@ -16,7 +19,7 @@ async function run() {
   const wasm = fs.readFileSync(__dirname + '/main.wasm')
   source = new Uint8Array(wasm.buffer as ArrayBuffer, wasm.byteOffset, wasm.byteLength / Uint8Array.BYTES_PER_ELEMENT)
 
-  const resource = await compile(
+  const resource = await compileResource(
     {
       source
     }

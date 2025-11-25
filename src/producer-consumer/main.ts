@@ -1,12 +1,10 @@
 import consumer from './consumer'
 import producer from './producer'
 
-import { createThreadFromFunction, joinThread } from '@libmedia/cheap/thread/thread'
 import Queue from './queue'
-import * as mutex from '@libmedia/cheap/thread/mutex'
-import * as cond from '@libmedia/cheap/thread/cond'
 
-import Sleep from '@libmedia/common/timer/Sleep'
+import { Sleep } from '@libmedia/common/timer'
+import { mutex, cond, createThreadFromFunction, joinThread } from '@libmedia/cheap'
 
 // @ts-ignore
 import consumerWorker from 'worker-loader!./consumerWorker'

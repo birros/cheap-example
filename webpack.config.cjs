@@ -1,5 +1,5 @@
 const path = require('path');
-const CheapPlugin = require('@libmedia/cheap/build/webpack/CheapPlugin');
+const CheapPlugin = require('@libmedia/cheap/build/CheapPlugin');
 
 module.exports = (env) => {
   const config = {

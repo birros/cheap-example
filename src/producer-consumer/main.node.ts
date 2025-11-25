@@ -1,13 +1,12 @@
-import consumer from './consumer'
-import producer from './producer'
+import consumer from './consumerNode.js'
+import producer from './producerNode.js'
 
-import { createThreadFromFunction, joinThread } from '@libmedia/cheap/thread/thread'
-import Queue from './queue'
-import * as mutex from '@libmedia/cheap/thread/mutex'
-import * as cond from '@libmedia/cheap/thread/cond'
+import Queue from './queue.js'
 
 import * as os from 'os'
-import Sleep from '@libmedia/common/timer/Sleep'
+
+import { Sleep } from '@libmedia/common/timer'
+import { mutex, cond, createThreadFromFunction, joinThread } from '@libmedia/cheap'
 
 import { Worker } from 'worker_threads'
 
@@ -23,7 +22,7 @@ async function run() {
   cond.init(addressof(queue.full_cond))
 
   const produceThread = await createThreadFromFunction(producer, () => {
-    return new Worker(require.resolve('./producerWorker')) as any
+    return new Worker(new URL('./producerWorkerNode.js', import.meta.url)) as any
   }).run(addressof(queue))
 
   let consumerCount = 0
@@ -31,7 +30,7 @@ async function run() {
   
   const consumerThreads = await Promise.all(new Array(consumerCount).fill(0).map(() => {
     return createThreadFromFunction(consumer, () => {
-      return new Worker(require.resolve('./consumerWorker')) as any
+      return new Worker(new URL('./consumerWorkerNode.js', import.meta.url)) as any
     }).run(addressof(queue))
   }))
 

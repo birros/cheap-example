@@ -1,11 +1,12 @@
 
-import compile from '@libmedia/cheap/webassembly/compiler'
-import WebAssemblyRunner from '@libmedia/cheap/webassembly/WebAssemblyRunner'
 import fs from 'fs'
+import path from 'path'
+import processWasm from './process.asm.js'
+import processSimdWasm from './process-simd.asm.js'
+import { compileResource, WebAssemblyRunner, ASMRunner  } from '@libmedia/cheap'
+import { fileURLToPath } from 'url'
 
-import processWasm from './process.asm'
-import processSimdWasm from './process-simd.asm'
-import ASMRunner from '@libmedia/cheap/asm/ASMRunner'
+const __dirname = path.dirname(fileURLToPath(import.meta.url))
 
 @struct
 class Point {
@@ -63,7 +64,7 @@ function runJsMultiplyVector4(points: Point[]) {
 }
 
 function runCheapMultiplyVector4(points: Point[]) {
-  const matrix: pointer<float> = malloc(sizeof(float) * 16)
+  const matrix: pointer<float> = reinterpret_cast<pointer<float>>(malloc(sizeof(float) * 16))
   for (let i = 0; i < 16; i ++) {
     matrix[i] = static_cast<float>(rotateMatrix[i])
   }
@@ -101,7 +102,7 @@ function runCheapMultiplyVector4(points: Point[]) {
 }
 
 async function runWasmMultiplyVector4(points: Point[]) {
-  const matrix: pointer<float> = malloc(sizeof(float) * 16)
+  const matrix: pointer<float> = reinterpret_cast<pointer<float>>(malloc(sizeof(float) * 16))
 
   for (let i = 0; i < 16; i ++) {
     matrix[i] = static_cast<float>(rotateMatrix[i])
@@ -122,7 +123,7 @@ async function runWasmMultiplyVector4(points: Point[]) {
   const wasm = fs.readFileSync(__dirname + '/simd.wasm')
   source = new Uint8Array<ArrayBuffer>(wasm.buffer as ArrayBuffer, wasm.byteOffset, wasm.byteLength / Uint8Array.BYTES_PER_ELEMENT)
 
-  const resource = await compile(
+  const resource = await compileResource(
     {
       source
     }
@@ -151,7 +152,7 @@ async function runWasmMultiplyVector4(points: Point[]) {
 }
 
 async function runWasmSimdMultiplyVector4(points: Point[]) {
-  const matrix: pointer<float> = malloc(sizeof(float) * 16)
+  const matrix: pointer<float> = reinterpret_cast<pointer<float>>(malloc(sizeof(float) * 16))
 
   for (let i = 0; i < 16; i ++) {
     matrix[i] = static_cast<float>(rotateMatrix[i])
@@ -172,7 +173,7 @@ async function runWasmSimdMultiplyVector4(points: Point[]) {
   const wasm = fs.readFileSync(__dirname + '/simd.wasm')
   source = new Uint8Array(wasm.buffer as ArrayBuffer, wasm.byteOffset, wasm.byteLength / Uint8Array.BYTES_PER_ELEMENT)
 
-  const resource = await compile(
+  const resource = await compileResource(
     {
       source
     }
@@ -202,7 +203,7 @@ async function runWasmSimdMultiplyVector4(points: Point[]) {
 }
 
 async function runAsmMultiplyVector4(points: Point[]) {
-  const matrix: pointer<float> = malloc(sizeof(float) * 16)
+  const matrix: pointer<float> = reinterpret_cast<pointer<float>>(malloc(sizeof(float) * 16))
 
   for (let i = 0; i < 16; i ++) {
     matrix[i] = static_cast<float>(rotateMatrix[i])
@@ -239,7 +240,7 @@ async function runAsmMultiplyVector4(points: Point[]) {
 }
 
 async function runAsmSimdMultiplyVector4(points: Point[]) {
-  const matrix: pointer<float> = malloc(sizeof(float) * 16)
+  const matrix: pointer<float> = reinterpret_cast<pointer<float>>(malloc(sizeof(float) * 16))
 
   for (let i = 0; i < 16; i ++) {
     matrix[i] = static_cast<float>(rotateMatrix[i])

@@ -1,4 +1,4 @@
-import Queue from './queue'
+import Queue from './queue.js'
 import { Sleep } from '@libmedia/common/timer'
 import { mutex, cond, ThreadId } from '@libmedia/cheap'
 
@@ -6,7 +6,7 @@ export default async function producer(queue: pointer<Queue>) {
 
   let item: int32 = 0
 
-  const list  = accessof(addressof(queue.list))
+  const list = accessof(addressof(queue.list))
 
   while (true) {
 

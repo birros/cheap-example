@@ -1,27 +1,21 @@
 {
   "name": "cheap-example",
   "version": "0.0.1",
+  "type": "module",
   "description": "cheap 示例",
-  "sideEffects": [
-    "./src/cheap/heap.ts",
-    "./src/cheap/thread/initClass.ts",
-    "./src/cheap/thread/initFunction.ts",
-    "./src/cheap/thread/initModule.ts",
-    "./src/cheap/webassembly/runThread.ts"
-  ],
   "scripts": {
     "build-dev": "cross-env NODE_ENV=production webpack --progress --env release=0",
-    "build-node-dev": "node ./build-node.js",
+    "build-node-dev": "node ./build-node.cjs",
     "server": "serve -p 8001 --cors --config ./test/serve.json"
   },
   "author": "Gaoxing Zhao",
   "license": "MIT",
   "devDependencies": {
-    "@types/node": "^10.17.60",
+    "@types/node": "^22.10.1",
     "cross-env": "^7.0.3",
     "file-loader": "^6.2.0",
     "ts-loader": "^9.4.4",
-    "typescript": "^5.7.2",
+    "typescript": "^5.9.3",
     "webpack": "^5.91.0",
     "webpack-cli": "^5.1.4",
     "worker-loader": "^3.0.8",
@@ -29,6 +23,6 @@
     "serve": "^14.2.4"
   },
   "dependencies": {
-    "@libmedia/cheap": "^0.6.1"
+    "@libmedia/cheap": "~1.2.0"
   }
 }
